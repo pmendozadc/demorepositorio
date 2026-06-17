@@ -6,6 +6,7 @@ import { FormPlantilla } from './form-plantilla/form-plantilla';
 import { FormReactivo } from './form-reactivo/form-reactivo';
 
 export const routes: Routes = [
+    { path: '', redirectTo: 'detalle1', pathMatch: 'full' },
     {
     path: 'formreactivo',
     component: FormReactivo,

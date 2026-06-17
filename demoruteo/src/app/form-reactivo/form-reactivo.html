@@ -1,9 +1,54 @@
-<form [formGroup]="miForm" (ngSubmit)="onSubmit()">
-<div>
- <label for="nombre">Nombre</label><input id="nombre" formControlName="nombre">
- </div>
- <div>
- <label for="email">Email</label><input id="email" formControlName="email">
- </div>
- <button type="submit" [disabled]="miForm.invalid">Enviar</button>
+<form [formGroup]="miForm" (ngSubmit)="onEnviar()" novalidate>
+
+  <div>
+    <label for="nombre">Nombre</label><input id="nombre" formControlName="nombre">
+    @if (f['nombre'].touched && f['nombre'].invalid) { <small style="color:red"> Obligatorio</small> }
+  </div>
+  
+  <div>
+    <label for="email">Email</label><input id="email" formControlName="email">
+    @if (f['email'].touched && f['email'].invalid) { <small style="color:red"> Email no válido</small> }
+  </div>
+  
+  <div>
+    <label for="edad">Edad</label><input type="number" id="edad" formControlName="edad">
+    @if (f['edad'].touched && f['edad'].invalid) { <small style="color:red"> Debe ser entre 18 y 99 años</small> }
+  </div>
+  
+  <div>
+    <label for="pais">País</label>
+    <select id="pais" formControlName="pais">
+      <option value="AR">Argentina</option><option value="CL">Chile</option><option value="PE">Peru</option>
+    </select>
+    @if (f['pais'].touched && f['pais'].invalid) { <small style="color:red"> Selecciona uno</small> }
+  </div>
+  
+  <div>
+    <label>Género</label>
+    <input type="radio" formControlName="genero" value="M"> M
+    <input type="radio" formControlName="genero" value="F"> F
+    @if (f['genero'].touched && f['genero'].invalid) { <small style="color:red"> Selecciona género</small> }
+  </div>
+  
+  <div>
+    <label for="fecha">Fecha</label><input type="date" id="fecha" formControlName="fecha">
+    @if (f['fecha'].touched && f['fecha'].invalid) { <small style="color:red"> Requerido</small> }
+  </div>
+  
+  <div>
+    <label for="experiencia">Experiencia</label>
+    <input type="range" id="experiencia" formControlName="experiencia" min="1" max="10">
+  </div>
+  
+  <div>
+    <label for="comentarios">Biografía</label><textarea id="comentarios" formControlName="comentarios"></textarea>
+  </div>
+  
+  <div>
+    <input type="checkbox" id="terminos" formControlName="terminos">
+    <label for="terminos">Acepto los términos</label>
+    @if (f['terminos'].touched && f['terminos'].invalid) { <small style="color:red"> Debes aceptar</small> }
+  </div>
+
+  <button type="submit" [disabled]="miForm.invalid">Enviar</button>
 </form>

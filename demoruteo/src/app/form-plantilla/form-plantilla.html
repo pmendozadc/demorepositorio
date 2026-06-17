@@ -1,15 +1,85 @@
-<form #miForm="ngForm" (ngSubmit)="onSubmit(miForm)">
-<div><label for="nombre">Nombre</label>
-<input type="text" id="nombre" name="nombre" ngModel required>
-</div> <div><label for="email">Email</label>
-<input type="email" id="email" name="email" ngModel required>  </div>
-<div>
-<label for="edad">Edad</label>
-<input id="edad" name="edad" ngModel required type="number" min="18" #edad="ngModel">
-<div *ngIf="edad && edad.invalid && edad.touched">
-  <div *ngIf="edad.errors?.['required']">Edad es obligatorio</div>
-  <div *ngIf="edad.errors?.['min']">Minimo no válido</div>
-</div>
-</div>
-<button type="submit" [disabled]="miForm.invalid">Enviar</button> 
+<form #miForm="ngForm" (ngSubmit)="onSubmit(miForm)" novalidate>
+  <div>
+    <label for="nombre">Nombre completo</label>
+    <input type="text" id="nombre" name="nombre" ngModel required minlength="3" #nombre="ngModel">
+    @if (nombre.invalid && nombre.touched) {
+      <div class="error-msg">
+        @if (nombre.errors?.['required']) { <div>El nombre es obligatorio.</div> }
+        @if (nombre.errors?.['minlength']) { <div>Debe tener al menos 3 caracteres.</div> }
+      </div>
+    }
+  </div>
+  <div>
+    <label for="email">Correo Electrónico</label>
+    <input type="email" id="email" name="email" ngModel required email #email="ngModel">
+    @if (email.invalid && email.touched) {
+      <div class="error-msg">
+        @if (email.errors?.['required']) { <div>El email es obligatorio.</div> }
+        @if (email.errors?.['email']) { <div>El formato del correo no es válido.</div> }
+      </div>
+    }
+  </div>
+  <div>
+    <label for="edad">Edad</label>
+    <input type="number" id="edad" name="edad" ngModel required min="18" max="99" #edad="ngModel">
+    @if (edad.invalid && edad.touched) {
+      <div class="error-msg">
+        @if (edad.errors?.['required']) { <div>La edad es obligatoria.</div> }
+        @if (edad.errors?.['min']) { <div>Debes ser mayor de 18 años.</div> }
+        @if (edad.errors?.['max']) { <div>Edad máxima permitida: 99 años.</div> }
+      </div>
+    }
+  </div>
+  <div>
+    <label for="pais">País de Residencia</label>
+    <select id="pais" name="pais" ngModel required #pais="ngModel">
+      <option value="" disabled selected>Selecciona un país...</option>
+      <option value="AR">Argentina</option>
+      <option value="CL">Chile</option>
+      <option value="ES">España</option>
+      <option value="MX">México</option>
+      <option value="PE">Perú</option>
+    </select>
+    @if (pais.invalid && pais.touched) {
+      <div class="error-msg">Por favor, selecciona un país.</div>
+    }
+  </div>
+  <div>
+    <label>Género</label>
+    <div class="radio-group">
+      <label>
+        <input type="radio" name="genero" value="M" ngModel required> Masculino
+      </label>
+      <label>
+        <input type="radio" name="genero" value="F" ngModel required> Femenino
+      </label>
+    </div>
+  </div>
+  <div>
+    <label for="fecha">Fecha de Inicio Deseada</label>
+    <input type="date" id="fecha" name="fecha" ngModel required #fecha="ngModel">
+    @if (fecha.invalid && fecha.touched) {
+      <div class="error-msg">Debes seleccionar una fecha.</div>
+    }
+  </div>
+  <div>
+    <label for="experiencia">Nivel de Experiencia (1 al 10):</label>
+    <input type="range" id="experiencia" name="experiencia" min="1" max="10" ngModel="5" #exp="ngModel">
+    <span>Actual: {{ exp.value }}</span>
+  </div>
+  <div>
+    <label for="comentarios">Biografía / Comentarios</label>
+    <textarea id="comentarios" name="comentarios" rows="4" ngModel maxlength="200" placeholder="Cuéntanos un poco sobre ti..." #comentarios="ngModel"></textarea>
+    <small>{{ 200 - (comentarios.value?.length || 0) }} caracteres restantes</small>
+  </div>
+  <div>
+    <label class="checkbox-label">
+      <input type="checkbox" id="terminos" name="terminos" ngModel required #terminos="ngModel">
+      Acepto los términos y condiciones de privacidad
+    </label>
+    @if (terminos.invalid && terminos.touched) {
+      <div class="error-msg">Es obligatorio aceptar los términos para continuar.</div>
+    }
+  </div>
+  <button type="submit" [disabled]="miForm.invalid">Enviar Formulario</button> 
 </form>
