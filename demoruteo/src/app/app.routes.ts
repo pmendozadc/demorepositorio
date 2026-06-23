@@ -4,8 +4,14 @@ import { Detalle2 } from './detalle2/detalle2';
 import { NotFound } from './not-found/not-found';
 import { FormPlantilla } from './form-plantilla/form-plantilla';
 import { FormReactivo } from './form-reactivo/form-reactivo';
+import { FormUsuarios } from './form-usuarios/form-usuarios';
 
 export const routes: Routes = [
+    {
+    path: 'formusuarios',
+    component: FormUsuarios,
+    title: 'Consulta de usuarios',
+    },
     { path: '', redirectTo: 'detalle1', pathMatch: 'full' },
     {
     path: 'formreactivo',
